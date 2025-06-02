@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Imágenes Aleatorias - OuJS</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 5px solid var(--primary-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .section {
+            padding: 40px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            max-width: 700px;
+            margin: 10px auto;
+        }
+
+        .live-demo {
+            text-align: center;
+        }
+
+        #demo-image-container {
+            margin: 20px auto;
+            max-width: 500px;
+            min-height: 300px;
+            border: 3px dashed var(--secondary-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: var(--box-shadow);
+        }
+
+        #demo-image {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: var(--border-radius);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95em;
+            box-shadow: var(--box-shadow);
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .example-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            .section-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>API de Imágenes Aleatorias OuJS</h1>
+        <p>Tu fuente de imágenes sorprendentes y aleatorias.</p>
+    </header>
+
+    <div class="container">
+        <section class="hero section">
+            <h2 class="section-title">¡Bienvenido!</h2>
+            <p>Esta API te proporciona acceso instantáneo a una variada colección de imágenes con solo una simple petición. Perfecta para tus proyectos, placeholders, o simplemente para descubrir algo nuevo.</p>
+        </section>
+
+        <section class="live-demo section">
+            <h2 class="section-title">Prueba en Vivo</h2>
+            <div id="demo-image-container">
+                <img id="demo-image" src="https://statics.memondo.com/p/99/ccs/2025/05/CC_2818345_b3c7daa776a443eda8d67aa8f0354763_meme_otros_soy_un_incomprendido_1.jpg" alt="Imagen de demostración">
+            </div>
+            <button id="btn-load-demo" class="btn">Cargar Nueva Imagen</button>
+        </section>
+
+        <section class="how-to-use section">
+            <h2 class="section-title">¿Cómo Usarla?</h2>
+            <div class="card">
+                <h3>Endpoint</h3>
+                <p>Realiza una petición GET a la siguiente URL para obtener una imagen aleatoria:</p>
+                <div class="code-block">
+                    <pre><code id="api-url-display">https://oujs-furm0iuo9-microbytes-projects-c4023cb1.vercel.app/api/imagen-aleatoria</code></pre>
+                </div>
+
+                <h3>Respuesta Esperada (JSON)</h3>
+                <p>Recibirás una respuesta en formato JSON como esta:</p>
+                <div class="code-block">
+<pre>[
+  {
+    "id": "k0fjd8x",
+    "url": "https://example.com/imagen_aleatoria.jpg",
+    "width": null, // o el ancho real si está disponible
+    "height": null // o el alto real si está disponible
+  }
+]</pre>
+                </div>
+
+                <h3>Ejemplo con JavaScript (Fetch API)</h3>
+                <div class="code-block">
+<pre>
+fetch('https://oujs-furm0iuo9-microbytes-projects-c4023cb1.vercel.app/api/imagen-aleatoria')
+  .then(response => response.json())
+  .then(data => {
+    if (data && data.length > 0) {
+      const imageUrl = data[0].url;
+      console.log('URL de la imagen:', imageUrl);
+      // Aquí puedes usar la imageUrl para mostrarla en tu página
+      // document.getElementById('miImagen').src = imageUrl;
+    }
+  })
+  .catch(error => console.error('Error al obtener la imagen:', error));
+</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="example-gallery section">
+            <h2 class="section-title">Galería de Ejemplos</h2>
+            <p style="text-align:center; margin-bottom: 20px;">Algunas imágenes que podrías obtener de la API.</p>
+            <div class="grid" id="gallery-container">
+                <!-- Las imágenes se cargarán aquí con JavaScript -->
+                <div class="card"><img src="https://via.placeholder.com/300x200.png?text=Cargando..." alt="Ejemplo 1"></div>
+                <div class="card"><img src="https://via.placeholder.com/300x200.png?text=Cargando..." alt="Ejemplo 2"></div>
+                <div class="card"><img src="https://via.placeholder.com/300x200.png?text=Cargando..." alt="Ejemplo 3"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 OuJS API de Imágenes. Todos los derechos reservados (o no, ¡es para divertirse!).</p>
+    </footer>
+
+    <script>
+        const apiUrl = 'https://oujs-furm0iuo9-microbytes-projects-c4023cb1.vercel.app/api/imagen-aleatoria';
+        const demoImageElement = document.getElementById('demo-image');
+        const btnLoadDemo = document.getElementById('btn-load-demo');
+        const galleryContainer = document.getElementById('gallery-container');
+
+        async function fetchRandomImage() {
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data && data.length > 0 && data[0].url) {
+                    return data[0].url;
+                } else {
+                    throw new Error('Formato de respuesta inesperado.');
+                }
+            } catch (error) {
+                console.error('Error al cargar imagen de la API:', error);
+                return 'https://via.placeholder.com/400x300.png?text=Error+al+cargar'; // Imagen de fallback
+            }
+        }
+
+        async function loadDemoImage() {
+            demoImageElement.src = 'https://via.placeholder.com/400x300.png?text=Cargando+imagen...'; // Placeholder mientras carga
+            const imageUrl = await fetchRandomImage();
+            demoImageElement.src = imageUrl;
+        }
+
+        async function populateGallery(numberOfImages = 3) {
+            galleryContainer.innerHTML = ''; // Limpiar galería existente
+            for (let i = 0; i < numberOfImages; i++) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                const imgElement = document.createElement('img');
+                imgElement.src = 'https://via.placeholder.com/300x200.png?text=Cargando...';
+                imgElement.alt = `Ejemplo ${i + 1}`;
+                
+                cardDiv.appendChild(imgElement);
+                galleryContainer.appendChild(cardDiv);
+
+                // Cargar la imagen real de forma asíncrona para esta tarjeta
+                fetchRandomImage().then(url => {
+                    imgElement.src = url;
+                }).catch(() => {
+                    imgElement.src = 'https://via.placeholder.com/300x200.png?text=Error';
+                });
+            }
+        }
+
+        // Event Listeners
+        if (btnLoadDemo) {
+            btnLoadDemo.addEventListener('click', loadDemoImage);
+        }
+
+        // Carga inicial
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('api-url-display')) {
+                 document.getElementById('api-url-display').textContent = apiUrl;
+            }
+            if (demoImageElement) {
+                loadDemoImage();
+            }
+            if (galleryContainer) {
+                populateGallery(3); // Cargar 3 imágenes en la galería
+            }
+        });
+
+    </script>
+
+</body>
+</html>

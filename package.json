@@ -1,0 +1,12 @@
+{
+  "name": "mi-api-de-imagenes",
+  "version": "1.0.0",
+  "description": "Una API simple para servir URLs de imágenes aleatorias.",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
